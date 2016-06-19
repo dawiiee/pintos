@@ -1,0 +1,515 @@
+Only in pintos: davsc542-olaov121_lab-2.diff
+diff -wur pintos-linux/devices/timer.c pintos/devices/timer.c
+--- pintos-linux/devices/timer.c	2015-09-24 19:18:54.001764000 +0200
++++ pintos/devices/timer.c	2016-03-01 15:34:09.000152000 +0100
+@@ -7,6 +7,7 @@
+ #include "threads/io.h"
+ #include "threads/synch.h"
+ #include "threads/thread.h"
++#include "lib/kernel/list.h"
+   
+ /* See [8254] for hardware details of the 8254 timer chip. */
+ 
+@@ -32,9 +33,12 @@
+ /* Sets up the 8254 Programmable Interval Timer (PIT) to
+    interrupt PIT_FREQ times per second, and registers the
+    corresponding interrupt. */
++struct list blocked_threads;
++
+ void
+ timer_init (void) 
+ {
++  list_init(&blocked_threads);
+   /* 8254 input frequency divided by TIMER_FREQ, rounded to
+      nearest. */
+   uint16_t count = (1193180 + TIMER_FREQ / 2) / TIMER_FREQ;
+@@ -92,15 +96,32 @@
+   return timer_ticks () - then;
+ }
+ 
++/*
++  passable function for sorting 
++*/
++bool
++less(struct list_elem *a, struct list_elem *b, void *aux){
++	struct thread * a_thrd = list_entry(a, struct thread, sleeping_thread);
++	struct thread * b_thrd = list_entry(b, struct thread, sleeping_thread);
++	return a_thrd->wakeup_time < b_thrd->wakeup_time; // compares the set time the threads are to wake up;
++}
++
++
++
+ /* Suspends execution for approximately TICKS timer ticks. */
+ void
+ timer_sleep (int64_t ticks) 
+ {
+-  int64_t start = timer_ticks ();
+-
+   ASSERT (intr_get_level () == INTR_ON);
+-  while (timer_elapsed (start) < ticks) 
+-    thread_yield ();
++  if(ticks <= 0)	//should not sleep if no/impossible ticks
++	return;
++
++  struct thread * thrd=thread_current();	
++  thrd->wakeup_time=timer_ticks()+ticks; //sets wakeuptime
++  enum intr_level old_level = intr_disable();
++  list_insert_ordered(&blocked_threads, &(thrd->sleeping_thread),less, NULL );
++  thread_block(); 
++  intr_set_level(old_level);
+ }
+ 
+ /* Suspends execution for approximately MS milliseconds. */
+@@ -137,6 +158,26 @@
+ {
+   ticks++;
+   thread_tick ();
++
++
++  enum intr_level old_level = intr_disable();
++  while (true){
++	struct list_elem * e = list_begin(&blocked_threads);
++	if (e == list_tail(&blocked_threads))
++		break;
++	struct thread * thrd = list_entry(e, struct thread, sleeping_thread);
++	if (thrd->wakeup_time <= timer_ticks()){
++		thread_unblock(thrd);
++		list_pop_front(&blocked_threads);
++	}
++	else
++		break;
++
++  }
++  intr_set_level(old_level);
++
++
++
+ }
+ 
+ /* Returns true if LOOPS iterations waits for more than one timer
+@@ -178,7 +219,7 @@
+ {
+   /* Convert NUM/DENOM seconds into timer ticks, rounding down.
+           
+-        (NUM / DENOM) s          
++       linked_list (NUM / DENOM) s          
+      ---------------------- = NUM * TIMER_FREQ / DENOM ticks. 
+      1 s / TIMER_FREQ ticks
+   */
+Only in pintos/devices: timer.c~
+diff -wur pintos-linux/devices/timer.h pintos/devices/timer.h
+--- pintos-linux/devices/timer.h	2015-09-24 19:18:54.002090000 +0200
++++ pintos/devices/timer.h	2016-03-01 15:21:48.000034000 +0100
+@@ -3,6 +3,7 @@
+ 
+ #include <round.h>
+ #include <stdint.h>
++#include "lib/kernel/list.h"
+ 
+ /* Number of timer interrupts per second. */
+ #define TIMER_FREQ 100
+@@ -17,7 +18,7 @@
+ void timer_msleep (int64_t milliseconds);
+ void timer_usleep (int64_t microseconds);
+ void timer_nsleep (int64_t nanoseconds);
+-
++#ifdef DEVICES
+ void timer_print_stats (void);
+-
+-#endif /* devices/timer.h */
++#endif
++#endif
+Only in pintos/devices: timer.h~
+Only in pintos/examples: bubsort
+Only in pintos/examples: bubsort.d
+Only in pintos/examples: bubsort.o
+Only in pintos/examples: cat
+Only in pintos/examples: cat.d
+Only in pintos/examples: cat.o
+Only in pintos/examples: child
+Only in pintos/examples: child.d
+Only in pintos/examples: child.o
+Only in pintos/examples: cmp
+Only in pintos/examples: cmp.d
+Only in pintos/examples: cmp.o
+Only in pintos/examples: cp
+Only in pintos/examples: cp.d
+Only in pintos/examples: cp.o
+Only in pintos/examples: create-bad
+Only in pintos/examples: create-bad.d
+Only in pintos/examples: create-bad.o
+Only in pintos/examples: dummy
+Only in pintos/examples: dummy.d
+Only in pintos/examples: dummy.o
+Only in pintos/examples: echo
+Only in pintos/examples: echo.d
+Only in pintos/examples: echo.o
+Only in pintos/examples: halt
+Only in pintos/examples: halt.d
+Only in pintos/examples: halt.o
+Only in pintos/examples: hex-dump
+Only in pintos/examples: hex-dump.d
+Only in pintos/examples: hex-dump.o
+Only in pintos/examples: insult
+Only in pintos/examples: insult.d
+Only in pintos/examples: insult.o
+Only in pintos/examples: lab1test
+Only in pintos/examples: lab1test.d
+Only in pintos/examples: lab1test.o
+Only in pintos/examples: lab2test
+Only in pintos/examples: lab2test.d
+Only in pintos/examples: lab2test.o
+Only in pintos/examples/lib: arithmetic.d
+Only in pintos/examples/lib: arithmetic.o
+Only in pintos/examples/lib: debug.d
+Only in pintos/examples/lib: debug.o
+Only in pintos/examples/lib: random.d
+Only in pintos/examples/lib: random.o
+Only in pintos/examples/lib: stdio.d
+Only in pintos/examples/lib: stdio.o
+Only in pintos/examples/lib: stdlib.d
+Only in pintos/examples/lib: stdlib.o
+Only in pintos/examples/lib: string.d
+Only in pintos/examples/lib: string.o
+Only in pintos/examples/lib/user: console.d
+Only in pintos/examples/lib/user: console.o
+Only in pintos/examples/lib/user: debug.d
+Only in pintos/examples/lib/user: debug.o
+Only in pintos/examples/lib/user: entry.d
+Only in pintos/examples/lib/user: entry.o
+Only in pintos/examples/lib/user: syscall.d
+Only in pintos/examples/lib/user: syscall.o
+Only in pintos/examples: libc.a
+Only in pintos/examples: lineup
+Only in pintos/examples: lineup.d
+Only in pintos/examples: lineup.o
+Only in pintos/examples: longrun
+Only in pintos/examples: longrun.d
+Only in pintos/examples: longrun.o
+Only in pintos/examples: ls
+Only in pintos/examples: ls.d
+Only in pintos/examples: ls.o
+Only in pintos/examples: matmult
+Only in pintos/examples: matmult.d
+Only in pintos/examples: matmult.o
+Only in pintos/examples: mcat
+Only in pintos/examples: mcat.d
+Only in pintos/examples: mcat.o
+Only in pintos/examples: mcp
+Only in pintos/examples: mcp.d
+Only in pintos/examples: mcp.o
+Only in pintos/examples: mkdir
+Only in pintos/examples: mkdir.d
+Only in pintos/examples: mkdir.o
+Only in pintos/examples: parent
+Only in pintos/examples: parent.d
+Only in pintos/examples: parent.o
+Only in pintos/examples: pfs
+Only in pintos/examples: pfs.d
+Only in pintos/examples: pfs.o
+Only in pintos/examples: pfs_reader
+Only in pintos/examples: pfs_reader.d
+Only in pintos/examples: pfs_reader.o
+Only in pintos/examples: pfs_writer
+Only in pintos/examples: pfs_writer.d
+Only in pintos/examples: pfs_writer.o
+Only in pintos/examples: pwd
+Only in pintos/examples: pwd.d
+Only in pintos/examples: pwd.o
+Only in pintos/examples: recursor
+Only in pintos/examples: recursor.d
+Only in pintos/examples: recursor.o
+Only in pintos/examples: rm
+Only in pintos/examples: rm.d
+Only in pintos/examples: rm.o
+Only in pintos/examples: shell
+Only in pintos/examples: shell.d
+Only in pintos/examples: shell.o
+Only in pintos/examples: sumargv
+Only in pintos/examples: sumargv.d
+Only in pintos/examples: sumargv.o
+Only in pintos/lib/kernel: bitmap.c~
+Only in pintos/lib/kernel: list.c~
+Only in pintos/lib: .syscall-nr.h.swp
+Only in pintos/lib/user: .syscall.c.swp
+Only in pintos-linux: .svn
+Only in pintos: TAGS
+Only in pintos/threads: build
+diff -wur pintos-linux/threads/intr-stubs.S pintos/threads/intr-stubs.S
+--- pintos-linux/threads/intr-stubs.S	2015-09-24 19:18:56.001348000 +0200
++++ pintos/threads/intr-stubs.S	2016-02-29 08:31:47.000009000 +0100
+@@ -202,3 +202,4 @@
+ STUB(f4, zero) STUB(f5, zero) STUB(f6, zero) STUB(f7, zero)
+ STUB(f8, zero) STUB(f9, zero) STUB(fa, zero) STUB(fb, zero)
+ STUB(fc, zero) STUB(fd, zero) STUB(fe, zero) STUB(ff, zero)
++
+diff -wur pintos-linux/threads/thread.c pintos/threads/thread.c
+--- pintos-linux/threads/thread.c	2015-09-24 19:18:56.001952000 +0200
++++ pintos/threads/thread.c	2016-02-23 14:07:44.000937000 +0100
+@@ -13,6 +13,8 @@
+ #include "threads/vaddr.h"
+ #ifdef USERPROG
+ #include "userprog/process.h"
++#include "filesys/file.h"
++#include "threads/malloc.h"
+ #endif
+ 
+ /* Random value for struct thread's `magic' member.
+@@ -191,7 +193,12 @@
+   /* Stack frame for switch_threads(). */
+   sf = alloc_frame (t, sizeof *sf);
+   sf->eip = switch_entry;
+-
++  /* ASSIGN BITMAP TO THREAD */
++  #ifdef USERPROG
++	//bitmap is (index in files) +2
++if(tid != 1)
++  t->bitmap=bitmap_create(128);
++  #endif
+   /* Add to run queue. */
+   thread_unblock (t);
+ 
+@@ -277,6 +284,24 @@
+   ASSERT (!intr_context ());
+ 
+ #ifdef USERPROG
++struct thread * current_thrd=thread_current();
++if(current_thrd->tid != 1){
++int index = 2;
++
++
++	while( index < 128){
++		//loop over all except first two fd:s 
++		if(bitmap_test(current_thrd->bitmap, index)){		//true if file is open
++			bitmap_flip(current_thrd->bitmap, index);
++			file_close(current_thrd->files[index-2]);
++							//closes open file in thread thrd
++			bitmap_reset(current_thrd->bitmap, index);	//flips bitmap[index] to false; presumably unnecessary
++		}	
++	index++;		
++	}
++	bitmap_destroy(current_thrd->bitmap);
++	free (current_thrd->files);
++}
+   process_exit ();
+ #endif
+ 
+@@ -287,7 +312,6 @@
+   schedule ();
+   NOT_REACHED ();
+ }
+-
+ /* Yields the CPU.  The current thread is not put to sleep and
+    may be scheduled again immediately at the scheduler's whim. */
+ void
+Only in pintos/threads: thread.c~
+diff -wur pintos-linux/threads/thread.h pintos/threads/thread.h
+--- pintos-linux/threads/thread.h	2015-09-24 19:18:56.002076000 +0200
++++ pintos/threads/thread.h	2016-02-29 09:53:22.002918000 +0100
+@@ -4,7 +4,10 @@
+ #include <debug.h>
+ #include <list.h>
+ #include <stdint.h>
+-
++#include "lib/kernel/bitmap.h"
++#include "filesys/filesys.h"
++#include "threads/synch.h"
++#include "lib/kernel/list.h"
+ /* States in a thread's life cycle. */
+ enum thread_status
+   {
+@@ -82,16 +85,19 @@
+    blocked state is on a semaphore wait list. */
+ struct thread
+   {
++	struct semaphore sema_lock;
+     /* Owned by thread.c. */
+     tid_t tid;                          /* Thread identifier. */
+     enum thread_status status;          /* Thread state. */
+     char name[16];                      /* Name (for debugging purposes). */
+     uint8_t *stack;                     /* Saved stack pointer. */
+     int priority;                       /* Priority. */
+-
++    struct bitmap * bitmap;
++    struct file * files[126];
+     /* Shared between thread.c and synch.c. */
+     struct list_elem elem;              /* List element. */
+-
++    int64_t wakeup_time;		/*alarm clock*/
++    struct list_elem sleeping_thread;
+ #ifdef USERPROG
+     /* Owned by userprog/process.c. */
+     uint32_t *pagedir;                  /* Page directory. */
+@@ -112,6 +118,7 @@
+ void thread_tick (void);
+ void thread_print_stats (void);
+ 
++
+ typedef void thread_func (void *aux);
+ tid_t thread_create (const char *name, int priority, thread_func *, void *);
+ 
+Only in pintos/threads: thread.h~
+Only in pintos/userprog: build
+Only in pintos/userprog: fs.dsk
+diff -wur pintos-linux/userprog/process.c pintos/userprog/process.c
+--- pintos-linux/userprog/process.c	2015-09-24 19:18:49.002029000 +0200
++++ pintos/userprog/process.c	2016-01-28 18:22:35.000000000 +0100
+@@ -88,6 +88,7 @@
+ int
+ process_wait (tid_t child_tid UNUSED) 
+ {
++	while(true){}
+   return -1;
+ }
+ 
+@@ -476,7 +477,7 @@
+     {
+       success = install_page (((uint8_t *) PHYS_BASE) - PGSIZE, kpage, true);
+       if (success)
+-        *esp = PHYS_BASE;
++        *esp = PHYS_BASE - 12;
+       else
+         palloc_free_page (kpage);
+     }
+Only in pintos/userprog: process.c~
+diff -wur pintos-linux/userprog/syscall.c pintos/userprog/syscall.c
+--- pintos-linux/userprog/syscall.c	2015-09-24 19:18:49.001541000 +0200
++++ pintos/userprog/syscall.c	2016-03-01 16:00:54.000314000 +0100
+@@ -4,17 +4,113 @@
+ #include "threads/interrupt.h"
+ #include "threads/thread.h"
+ 
++#include "threads/init.h"
++#include "filesys/filesys.h"
++#include "filesys/file.h"
++
+ static void syscall_handler (struct intr_frame *);
+ 
+-void
+-syscall_init (void) 
+-{
++void syscall_init (void){
+   intr_register_int (0x30, 3, INTR_ON, syscall_handler, "syscall");
+ }
++static void close_by_fd(size_t fd,struct thread * thrd){
++	bitmap_flip(thrd->bitmap, fd);
++	file_close(thrd->files[fd-2]);
++	
++}
++
++static void syscall_handler (struct intr_frame *f UNUSED){
++	struct thread * thrd=thread_current();
++  //printf ("system call!\n");
++  //thread_exit ();
++	int *p=f->esp;
++	switch(*p){
++	case SYS_HALT:
++		power_off();
++		break;
++	case SYS_CREATE:{
++		const char *first_arg=(char *)(*(p+1));
++		int second_arg=*(p+2);
++		f->eax=filesys_create(first_arg,second_arg);		
++		break;
++	}
++	case SYS_WRITE:{
++		int fd=*(p+1);
++		char* text =  (char *)(*(p+2));
++		int buffsize=*(p+3);
++		if(fd==STDOUT_FILENO){
++			putbuf(text,buffsize);
++			f->eax=buffsize;	
++		}
++		else{
++			if(fd>=2 && fd < 129 && bitmap_test(thrd->bitmap,fd)){
++			f->eax= file_write(thrd->files[fd-2],text,buffsize);		
++			}
++			else f->eax=-1;
++		}
++		break;
++	}
++	case SYS_READ:{
++		int fd=*(p+1);
++		char* text =  (char*)(*(p+2));
++                int buffsize=*(p+3);
++                if(fd==STDIN_FILENO){
++			int count = 0;
++			int size=buffsize;
++			while(count<size){
++				text[count]=input_getc();
++				count++;			
++			}
++			f->eax=buffsize;
++                }
++                else{
++			if(fd > 1 && fd < 129 && bitmap_test(thrd->bitmap,fd)){
++			
++                        f->eax=file_read(thrd->files[fd-2],text,buffsize);
++			}
++			else f->eax=-1;
++                }
++                break;
+ 
+-static void
+-syscall_handler (struct intr_frame *f UNUSED) 
+-{
+-  printf ("system call!\n");
++		}
++	case SYS_OPEN:{
++		char *name= (char*)(*(p+1));
++		struct file * open_file  =filesys_open(name);
++		if(open_file != NULL){
++			size_t fd=bitmap_scan_and_flip(thrd->bitmap,2,1,0);
++			if(fd == BITMAP_ERROR){	//no more space for files
++				file_close(open_file);
++				f->eax = -1;
++			}
++			else{
++				thrd->files[fd-2]=open_file;
++				f->eax=fd;
++			}		
++		}
++		else{
++			f->eax=-1;
++		}
++		break;
++		}
++	case SYS_EXIT:{
+   thread_exit ();
++		break;
++		}
++	case SYS_CLOSE:{ 
++		size_t fd = *(p+1);
++		if(bitmap_test(thrd->bitmap,fd)) close_by_fd(fd,thrd);
++		break;
++		}
++	default:
++		//printf(*p);
++		printf("SYS_CALL: 404");	
++		thread_exit();
++	
++
++	}
++	//shutdown the machine
++
++	//WRITE:
++	//get parameters...
++	//call the right functions
+ }
+Only in pintos/userprog: syscall.c~
+diff -wur pintos-linux/userprog/syscall.h pintos/userprog/syscall.h
+--- pintos-linux/userprog/syscall.h	2015-09-24 19:18:49.002246000 +0200
++++ pintos/userprog/syscall.h	2016-01-29 09:24:23.000000000 +0100
+@@ -2,5 +2,4 @@
+ #define USERPROG_SYSCALL_H
+ 
+ void syscall_init (void);
+-
+ #endif /* userprog/syscall.h */
+Only in pintos/utils: qemu
+Only in pintos/utils: setitimer-helper
+Only in pintos/utils: setitimer-helper.o
+Only in pintos/utils: squish-pty
+Only in pintos/utils: squish-pty.o
+Only in pintos/utils: squish-unix
+Only in pintos/utils: squish-unix.o

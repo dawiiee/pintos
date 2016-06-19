@@ -1,0 +1,669 @@
+v
+Appendix B  4.4
+BSD
+Scheduler
+..............
+88
+B.1  Niceness
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+88
+B.2  Calculating Priority
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+88
+B.3  Calculating
+recent
+cpu
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+89
+B.4  Calculating
+load
+avg
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+90
+B.5  Summary
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+90
+B.6  Fixed-Point Real Arithmetic
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+91
+Appendix C  Coding Standards
+..............
+93
+C.1  Style
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+93
+C.2  C99
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+93
+C.3  Unsafe String Functions
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+94
+Appendix D  Project Documentation
+........
+96
+D.1  Sample Assignment
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+96
+D.2  Sample Design Document
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+96
+Appendix E   Debugging Tools
+...............
+99
+E.1
+printf()
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+99
+E.2
+ASSERT
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+99
+E.3  Function and Parameter Attributes
+. . . . . . . . . . . . . . . . . . . . . . . . . .
+99
+E.4  Backtraces
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+100
+E.4.1  Example
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+100
+E.5  GDB
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+102
+E.5.1  Using GDB
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+102
+E.5.2  Example GDB Session
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+105
+E.5.3  Debugging User Programs
+. . . . . . . . . . . . . . . . . . . . . . . . . . . .
+107
+E.5.4  FAQ
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+107
+E.6  Triple Faults
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+108
+E.7  Modifying Bochs
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+108
+E.8  Tips
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+109
+Appendix F   Development Tools
+...........
+110
+F.1  Tags
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+110
+F.2  CVS
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+110
+F.2.1  Setting Up CVS
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+110
+F.2.2  Using CVS
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+111
+F.2.3  CVS Locking
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+112
+F.3  SourceForge
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+112
+F.4  VNC
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+112
+Appendix G  Installing Pintos
+..............
+114
+G.1  Building Bochs for Pintos
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+115
+vi
+Bibliography
+................................
+117
+Hardware References
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+117
+Software References
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+117
+Operating System Design References
+. . . . . . . . . . . . . . . . . . . . . . . . . . . .
+118
+License
+.....................................
+119
+Chapter 1: Introduction                                                         1
+1 Introduction
+Welcome to Pintos. Pintos is a simple operating system framework for the 80
+x
+86 archi-
+tecture. It supports kernel threads, loading and running user programs, and a file system,
+but it implements all of these in a very simple way. In the Pintos projects, you and your
+project team will strengthen its support in all three of these areas. You will also add a
+virtual memory implementation.
+Pintos could, theoretically, run on a regular IBM-compatible PC. Unfortunately, it is
+impractical to supply every CS 140 student a dedicated PC for use with Pintos. Therefore,
+we will run Pintos projects in a system simulator, that is, a program that simulates an 80
+x
+86
+CPU and its peripheral devices accurately enough that unmodified operating systems and
+software can run under it. In class we will use the
+Bochs
+and
+QEMU
+simulators. Pintos
+has also been tested with
+VMware Player
+.
+These projects are hard. CS 140 has a reputation of taking a lot of time, and deservedly
+so. We will do what we can to reduce the workload, such as providing a lot of support
+material, but there is plenty of hard work that needs to be done. We welcome your feedback.
+If you have suggestions on how we can reduce the unnecessary overhead of assignments,
+cutting them down to the important underlying issues, please let us know.
+This chapter explains how to get started working with Pintos.  You should read the
+entire chapter before you start work on any of the projects.
+1.1 Getting Started
+To get started, you’ll have to log into a machine that Pintos can be built on. The CS140
+“officially supported” Pintos development machines are the machines in Sweet Hall managed
+by Stanford ITSS, as described on the
+ITSS webpage
+. You may use the Solaris or Linux
+machines. We will test your code on these machines, and the instructions given here assume
+this environment.  We cannot provide support for installing and working on Pintos on
+your own machine, but we provide instructions for doing so nonetheless (see
+Appendix G
+[Installing Pintos], page 114
+).
+Once you’ve logged into one of these machines, either locally or remotely, start out by
+adding our binaries directory to your
+PATH
+environment. Under
+csh
+, Stanford’s login shell,
+you can do so with this command:
+1
+set path = ( /usr/class/cs140/‘uname -m‘/bin $path )
+Notice that both ‘
+‘
+’ are left single quotes or “backticks,” not apostrophes (‘
+’
+’).
+It is a good
+idea to add this line to the ‘
+.cshrc
+’ file in your home directory. Otherwise, you’ll have to
+type it every time you log in.
+1.1.1 Source Tree Overview
+Now you can extract the source for Pintos into a directory named ‘
+pintos/src
+’, by executing
+zcat /usr/class/cs140/pintos/pintos.tar.gz | tar x
+Alternatively, fetch
+http://www.stanford.edu/class/cs140/pintos/pintos.tar.gz
+and extract it in a similar way.
+1
+The term ‘
+‘uname -m‘
+’ expands to either ‘
+sun4u
+’ or ‘
+i686
+’ according to the type of computer you’re
+logged into.
+Chapter 1: Introduction                                                         2
+Let’s take a look at what’s inside. Here’s the directory structure that you should see in
+‘
+pintos/src
+’:
+‘
+threads/
+’
+Source code for the base kernel, which you will modify starting in project 1.
+‘
+userprog/
+’
+Source code for the user program loader, which you will modify starting with
+project 2.
+‘
+vm/
+’      An almost empty directory. You will implement virtual memory here in project
+3.
+‘
+filesys/
+’
+Source code for a basic file system. You will use this file system starting with
+project 2, but you will not modify it until project 4.
+‘
+devices/
+’
+Source code for I/O device interfacing: keyboard, timer, disk, etc. You will
+modify the timer implementation in project 1. Otherwise you should have no
+need to change this code.
+‘
+lib/
+’     An implementation of a subset of the standard C library.  The code in this
+directory is compiled into both the Pintos kernel and, starting from project
+2, user programs that run under it. In both kernel code and user programs,
+headers in this directory can be included using the
+#include <...>
+notation.
+You should have little need to modify this code.
+‘
+lib/kernel/
+’
+Parts of the C library that are included only in the Pintos kernel. This also
+includes implementations of some data types that you are free to use in your
+kernel code: bitmaps, doubly linked lists, and hash tables. In the kernel, headers
+in this directory can be included using the
+#include <...>
+notation.
+‘
+lib/user/
+’
+Parts of the C library that are included only in Pintos user programs. In user
+programs, headers in this directory can be included using the
+#include <...>
+notation.
+‘
+tests/
+’   Tests for each project.  You can modify this code if it helps you test your
+submission, but we will replace it with the originals before we run the tests.
+‘
+examples/
+’
+Example user programs for use starting with project 2.
+‘
+misc/
+’
+‘
+utils/
+’   These files may come in handy if you decide to try working with Pintos away
+from the ITSS machines. Otherwise, you can ignore them.
+1.1.2 Building Pintos
+As the next step, build the source code supplied for the first project. First,
+cd
+into the
+‘
+threads
+’ directory. Then, issue the ‘
+make
+’ command. This will create a ‘
+build
+’ directory
+Chapter 1: Introduction                                                         3
+under ‘
+threads
+’, populate it with a ‘
+Makefile
+’ and a few subdirectories, and then build
+the kernel inside. The entire build should take less than 30 seconds.
+Watch the commands executed during the build. On the Linux machines, the ordinary
+system tools are used. On a SPARC machine, special build tools are used, whose names
+begin with ‘
+i386-elf-
+’, e.g.
+i386-elf-gcc
+,
+i386-elf-ld
+.  These are “cross-compiler”
+tools. That is, the build is running on a SPARC machine (called the
+host
+), but the result
+will run on a simulated 80
+x
+86 machine (called the
+target
+). The ‘
+i386-elf-
+program
+’ tools
+are specially built for this configuration.
+Following the build, the following are the interesting files in the ‘
+build
+’ directory:
+‘
+Makefile
+’
+A copy of ‘
+pintos/src/Makefile.build
+’. It describes how to build the kernel.
+See
+[Adding Source Files], page 17
+, for more information.
+‘
+kernel.o
+’
+Object file for the entire kernel. This is the result of linking object files compiled
+from each individual kernel source file into a single object file.  It contains
+debug information, so you can run GDB (see
+Section E.5 [GDB], page 102
+) or
+backtrace
+(see
+Section E.4 [Backtraces], page 100
+) on it.
+‘
+kernel.bin
+’
+Memory image of the kernel. These are the exact bytes loaded into memory to
+run the Pintos kernel. To simplify loading, it is always padded out with zero
+bytes up to an exact multiple of 4 kB in size.
+‘
+loader.bin
+’
+Memory image for the kernel loader, a small chunk of code written in assembly
+language that reads the kernel from disk into memory and starts it up. It is
+exactly 512 bytes long, a size fixed by the PC BIOS.
+‘
+os.dsk
+’   Disk image for the kernel, which is just ‘
+loader.bin
+’ followed by ‘
+kernel.bin
+’.
+This file is used as a “virtual disk” by the simulator.
+Subdirectories of ‘
+build
+’ contain object files (‘
+.o
+’) and dependency files (‘
+.d
+’), both
+produced by the compiler. The dependency files tell
+make
+which source files need to be
+recompiled when other source or header files are changed.
+1.1.3 Running Pintos
+We’ve supplied a program for conveniently running Pintos in a simulator, called
+pintos
+.
+In the simplest case, you can invoke
+pintos
+as
+pintos
+argument
+...
+. Each
+argument
+is
+passed to the Pintos kernel for it to act on.
+Try it out. First
+cd
+into the newly created ‘
+build
+’ directory. Then issue the command
+pintos run alarm-multiple
+, which passes the arguments
+run alarm-multiple
+to the Pin-
+tos kernel. In these arguments,
+run
+instructs the kernel to run a test and
+alarm-multiple
+is the test to run.
+This command creates a ‘
+bochsrc.txt
+’ file, which is needed for running Bochs, and then
+invoke Bochs. Bochs opens a new window that represents the simulated machine’s display,
+and a BIOS message briefly flashes. Then Pintos boots and runs the
+alarm-multiple
+test
+program, which outputs a few screenfuls of text. When it’s done, you can close Bochs by
+Chapter 1: Introduction                                                         4
+clicking on the “Power” button in the window’s top right corner, or rerun the whole process
+by clicking on the “Reset” button just to its left. The other buttons are not very useful for
+our purposes.
+(If no window appeared at all, and you just got a terminal full of corrupt-looking text,
+then you’re probably logged in remotely and X forwarding is not set up correctly. In this
+case, you can fix your X setup, or you can use the ‘
+-v
+’ option to disable X output:
+pintos
+-v -- run alarm-multiple
+.)
+The text printed by Pintos inside Bochs probably went by too quickly to read. However,
+you’ve probably noticed by now that the same text was displayed in the terminal you used
+to run
+pintos
+. This is because Pintos sends all output both to the VGA display and to the
+first serial port, and by default the serial port is connected to Bochs’s
+stdin
+and
+stdout
+.
+You can log serial output to a file by redirecting at the command line, e.g.
+pintos run
+alarm-multiple > logfile
+.
+The
+pintos
+program offers several options for configuring the simulator or the virtual
+hardware. If you specify any options, they must precede the commands passed to the Pintos
+kernel and be separated from them by ‘
+--
+’, so that the whole command looks like
+pintos
+option
+... --
+argument
+...
+. Invoke
+pintos
+without any arguments to see a list of available
+options. Options can select a simulator to use: the default is Bochs, but ‘
+--qemu
+’ selects
+QEMU. You can run the simulator with a debugger (see
+Section E.5 [GDB], page 102
+).
+You can set the amount of memory to give the VM. Finally, you can select how you want
+VM output to be displayed: use ‘
+-v
+’ to turn off the VGA display, ‘
+-t
+’ to use your terminal
+window as the VGA display instead of opening a new window (Bochs only), or ‘
+-s
+’ to
+suppress serial input from
+stdin
+and output to
+stdout
+.
+The Pintos kernel has commands and options other than
+run
+.  These are not very
+interesting for now, but you can see a list of them using ‘
+-h
+’, e.g.
+pintos -h
+.
+1.1.4 Debugging versus Testing
+When you’re debugging code, it’s useful to be able to run a program twice and have it do
+exactly the same thing. On second and later runs, you can make new observations without
+having to discard or verify your old observations. This property is called “reproducibility.”
+One of the simulators that Pintos supports, Bochs, can be set up for reproducibility, and
+that’s the way that
+pintos
+invokes it by default.
+Of course, a simulation can only be reproducible from one run to the next if its input
+is the same each time. For simulating an entire computer, as we do, this means that every
+part of the computer must be the same. For example, you must use the same command-line
+argument, the same disks, the same version of Bochs, and you must not hit any keys on the
+keyboard (because you could not be sure to hit them at exactly the same point each time)
+during the runs.
+While reproducibility is useful for debugging, it is a problem for testing thread synchro-
+nization, an important part of most of the projects. In particular, when Bochs is set up for
+reproducibility, timer interrupts will come at perfectly reproducible points, and therefore
+so will thread switches. That means that running the same test several times doesn’t give
+you any greater confidence in your code’s correctness than does running it only once.
+So, to make your code easier to test, we’ve added a feature, called “jitter,” to Bochs,
+that makes timer interrupts come at random intervals, but in a perfectly predictable way.
+Chapter 1: Introduction                                                         5
+In particular, if you invoke
+pintos
+with the option ‘
+-j
+seed
+’, timer interrupts will come at
+irregularly spaced intervals. Within a single
+seed
+value, execution will still be reproducible,
+but timer behavior will change as
+seed
+is varied. Thus, for the highest degree of confidence
+you should test your code with many seed values.
+On the other hand, when Bochs runs in reproducible mode, timings are not realistic,
+meaning that a “one-second” delay may be much shorter or even much longer than one
+second. You can invoke
+pintos
+with a different option, ‘
+-r
+’, to set up Bochs for realistic
+timings, in which a one-second delay should take approximately one second of real time.
+Simulation in real-time mode is not reproducible, and options ‘
+-j
+’ and ‘
+-r
+’ are mutually
+exclusive.
+The QEMU simulator is available as an alternative to Bochs (use ‘
+--qemu
+’ when invoking
+pintos
+). The QEMU simulator is much faster than Bochs, but it only supports real-time
+simulation and does not have a reproducible mode.
+1.2 Grading
+We will grade your assignments based on test results and design quality, each of which
+comprises 50% of your grade.
+1.2.1 Testing
+Your test result grade will be based on our tests.  Each project has several tests, each
+of which has a name beginning with ‘
+tests
+’. To completely test your submission, invoke
+make check
+from the project ‘
+build
+’ directory. This will build and run each test and print a
+“pass” or “fail” message for each one. When a test fails,
+make check
+also prints some details
+of the reason for failure. After running all the tests,
+make check
+also prints a summary of
+the test results.
+For project 1, the tests will probably run faster in Bochs. For the rest of the projects,
+they will run much faster in QEMU.
+make check
+will select the faster simulator by default,
+but you can override its choice by specifying ‘
+SIMULATOR=--bochs
+’ or ‘
+SIMULATOR=--qemu
+’
+on the
+make
+command line.
+You can also run individual tests one at a time.  A given test
+t
+writes its output to
+‘
+t
+.output
+’, then a script scores the output as “pass” or “fail” and writes the verdict to
+‘
+t
+.result
+’.  To run and grade a single test,
+make
+the ‘
+.result
+’ file explicitly from the
+‘
+build
+’ directory, e.g.
+make tests/threads/alarm-multiple.result
+. If
+make
+says that
+the test result is up-to-date, but you want to re-run it anyway, either run
+make clean
+or
+delete the ‘
+.output
+’ file by hand.
+By default, each test provides feedback only at completion, not during its run. If you
+prefer, you can observe the progress of each test by specifying ‘
+VERBOSE=1
+’ on the
+make
+command line, as in
+make check VERBOSE=1
+. You can also provide arbitrary options to the
+pintos
+run by the tests with ‘
+PINTOSOPTS=’...’
+’, e.g.
+make check PINTOSOPTS=’-j 1’
+to
+select a jitter value of 1 (see
+Section 1.1.4 [Debugging versus Testing], page 4
+).
+All of the tests and related files are in ‘
+pintos/src/tests
+’. Before we test your sub-
+mission, we will replace the contents of that directory by a pristine, unmodified copy, to
+ensure that the correct tests are used. Thus, you can modify some of the tests if that helps
+in debugging, but we will run the originals.
+Chapter 1: Introduction                                                         6
+All software has bugs, so some of our tests may be flawed. If you think a test failure is
+a bug in the test, not a bug in your code, please point it out. We will look at it and fix it
+if necessary.
+Please don’t try to take advantage of our generosity in giving out our test suite. Your
+code has to work properly in the general case, not just for the test cases we supply. For
+example, it would be unacceptable to explicitly base the kernel’s behavior on the name of
+the running test case. Such attempts to side-step the test cases will receive no credit. If
+you think your solution may be in a gray area here, please ask us about it.
+1.2.2 Design
+We will judge your design based on the design document and the source code that you
+submit. We will read your entire design document and much of your source code.
+Don’t forget that design quality, including the design document, is 50% of your project
+grade. It is better to spend one or two hours writing a good design document than it is to
+spend that time getting the last 5% of the points for tests and then trying to rush through
+writing the design document in the last 15 minutes.
+1.2.2.1 Design Document
+We provide a design document template for each project. For each significant part of a
+project, the template asks questions in four areas:
+Data Structures
+The instructions for this section are always the same:
+Copy here the declaration of each new or changed
+struct
+or
+struct
+member, global or static variable,
+typedef
+, or enumeration. Iden-
+tify the purpose of each in 25 words or less.
+The first part is mechanical. Just copy new or modified declarations into the
+design document, to highlight for us the actual changes to data structures. Each
+declaration should include the comment that should accompany it in the source
+code (see below).
+We also ask for a very brief description of the purpose of each new or changed
+data structure. The limit of 25 words or less is a guideline intended to save
+your time and avoid duplication with later areas.
+Algorithms
+This is where you tell us how your code works, through questions that probe
+your understanding of your code. We might not be able to easily figure it out
+from the code, because many creative solutions exist for most OS problems.
+Help us out a little.
+Your answers should be at a level below the high level description of require-
+ments given in the assignment.  We have read the assignment too, so it is
+unnecessary to repeat or rephrase what is stated there. On the other hand,
+your answers should be at a level above the low level of the code itself. Don’t
+give a line-by-line run-down of what your code does. Instead, use your answers
+to explain how your code works to implement the requirements.
